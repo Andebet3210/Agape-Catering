@@ -40,9 +40,10 @@ import home from './home.png';
 import cross_icon from './cross_icon.png'
 import drinks from './drinks.png'
 import water from './water.png'
-
+import manager_profile from './manager_profile.png'
 
 export const assets = {
+  manager_profile,
   drinks,
   cross_icon,
   home,
@@ -90,7 +91,7 @@ export const assets = {
 export const menu_list = [
   {
     menu_name: 'Dessert',
-    menu_image: desert,
+    menu_image: desert ,
   },
   {
     menu_name: 'Vegetable',
@@ -152,7 +153,7 @@ export const food_list = [
     price: '300',
     description:
       'Food is a universal language that brings people together, creating memories with every bite.',
-    category: 'Full Package',
+    category: 'Full Package ',
     image: assets.agelgl,
   },
   {
@@ -275,7 +276,7 @@ export const food_list = [
   {
     _id: '18',
     name: 'Cookies',
-    price: '250/packate',
+    price: '250',
     description:
       'Food is a universal language that brings people together, creating memories with every bite.',
     category: 'Dessert',
@@ -284,7 +285,7 @@ export const food_list = [
   {
     _id: '19',
     name: 'Water',
-    price: '25/L',
+    price: '25',
     description:
       'Food is a universal language that brings people together, creating memories with every bite.',
     category: 'Drinks',

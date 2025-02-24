@@ -3,7 +3,7 @@ import { FaPhone, FaEnvelope, FaFacebook, FaTiktok } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <div className="text-white font-sans font-light bg-gray-700 mt-16">
+    <div className="text-white font-sans font-light bg-gray-700 mt-16" id='footer'>
       <div className="flex  flex-col md:flex-row justify-between px-6 py-3 mx-auto max-w-6xl ">
         <div className="flex flex-col gap-4 w-full md:w-[50%]">
           <h1 className="font-bold text-xl sm:text-2xl md:text-3xl text-red-400 font-mono md:font-bold sm:font-semibold">
@@ -31,10 +31,15 @@ const Footer = () => {
               className="w-8 h-8 text-gray-300 hover:text-white transition-transform transform hover:scale-110 cursor-pointer"
               title="Facebook"
             />
-            <FaTiktok
-              className="w-8 h-8 text-gray-300 hover:text-white transition-transform transform hover:scale-110 cursor-pointer"
-              title="TikTok"
-            />
+            <a
+              href="https://www.tiktok.com/@agapecatering?_t=ZM-8tnaQeDp6DF&_r=1"
+              target="_blank"
+            >
+              <FaTiktok
+                className="w-8 h-8 text-gray-300 hover:text-white transition-transform transform hover:scale-110 cursor-pointer"
+                title="TikTok"
+              />
+            </a>
           </div>
         </div>
 
@@ -61,9 +66,15 @@ const Footer = () => {
               <li className="flex items-center gap-2 hover:text-gray-400">
                 <FaFacebook /> .......
               </li>
-              <li className="flex items-center gap-2 hover:text-gray-400">
-                <FaTiktok /> .....................
-              </li>
+              <a
+                href="https://www.tiktok.com/@agapecatering?_t=ZM-8tnaQeDp6DF&_r=1"
+                target="_blank"
+              >
+                <li className="flex items-center gap-2 hover:text-gray-400">
+                  <FaTiktok />
+                  agapecatering Agapecatering
+                </li>
+              </a>
             </ul>
           </div>
         </div>

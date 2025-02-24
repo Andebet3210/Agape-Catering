@@ -1,12 +1,13 @@
-import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App.jsx';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import StoreContextProvider from './context/StoreContext.jsx';
-createRoot(document.getElementById('root')).render(
+import App from './App'; // Import App directly
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <BrowserRouter>
-    <StoreContextProvider>
-      <App />
-    </StoreContextProvider>
+    {' '}
+    {/* Single Router at the root level */}
+    <App />
   </BrowserRouter>
 );

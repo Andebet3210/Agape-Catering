@@ -12,25 +12,29 @@ const FoodDisplay = ({ category }) => {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-        {food_list.map((item, index) => {
-          if (category === 'All' || category === item.category) {
-            return (
-              <div
-                key={index}
-                className="cursor-pointer transition-transform transform hover:scale-105"
-              >
-                <FoodItem
-                  id={item._id}
-                  name={item.name}
-                  description={item.description}
-                  price={item.price}
-                  image={item.image}
-                />
-              </div>
-            );
-          }
-          return null;
-        })}
+        {food_list.length > 0 ? (
+          food_list.map((item, index)=> {
+            if (category === 'All' || category === item.category) {
+              return (
+                <div
+                  key={index}
+                  className="cursor-pointer transition-transform transform hover:scale-105"
+                >
+                  <FoodItem
+                    id={item._id}
+                    name={item.name}
+                    description={item.description}
+                    price={item.price}
+                    image={item.image}
+                  />
+                </div>
+              );
+            }
+            return null;
+          })
+        ) : (
+          <p>No food items available</p>
+        )}
       </div>
     </div>
   );

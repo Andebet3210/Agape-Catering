@@ -32,7 +32,7 @@ const Explore = ({ category, setCatagory }) => {
                 src={item.menu_image}
                 alt={item.menu_name}
                 className={`w-24 sm:w-32 h-24 sm:h-32 rounded-full object-cover shadow-lg border-2 cursor-pointer transition-all 
-                {
+               ${
                   category === item.menu_name
                     ? 'border-[tomato] scale-105'
                     : 'border-gray-300'
