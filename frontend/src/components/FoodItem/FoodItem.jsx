@@ -1,4 +1,4 @@
- import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FaTimes } from 'react-icons/fa'; // Close icon
 import { StoreContext } from '../../context/StoreContext';
 
@@ -23,16 +23,16 @@ const FoodItem = ({ id, name, price, description, image }) => {
       alert('Please enter a valid quantity greater than 0.');
       return;
     }
-    for (let i = 0; i < quantity; i++) {
-      addToCart(id);
-    }
+
+    // Call addToCart function with quantity directly
+    addToCart(id, quantity); // Send the quantity to add to cart
     toggleModal();
   };
 
   // Handle Quantity Change
   const handleQuantityChange = (e) => {
     const newQuantity = parseInt(e.target.value, 10);
-    setQuantity(isNaN(newQuantity) || newQuantity < 1 ? 0 : newQuantity);
+    setQuantity(isNaN(newQuantity) || newQuantity < 1 ? 1 : newQuantity); // Ensure quantity is at least 1
   };
 
   // Fix image URL
@@ -84,7 +84,6 @@ const FoodItem = ({ id, name, price, description, image }) => {
             />
 
             {/* Food Details */}
-
             <h2 className="text-2xl font-bold mt-4">{name}</h2>
             <p className="text-sm text-gray-600 mt-2">{description}</p>
             <p className="text-lg font-bold text-green-600 mt-2">{price} ETB</p>

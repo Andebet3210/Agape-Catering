@@ -74,7 +74,7 @@ import { useNavigate } from 'react-router-dom';
              {item.price * (cartItems[item._id] || 0)} ETB
            </p>
            <button
-             onClick={() => removeFromCart(item._id)}
+             onClick={() => removeFromCart(item._id,true)}
              className="text-red-600 cursor-pointer"
              title="Remove Item"
            >
