@@ -30,13 +30,14 @@
        console.error('Error fetching food list:', error);
      }
    };
-//fetch feedback
+
+   // Fetch feedback list
    const fetchFeedbackList = async () => {
      try {
        const response = await axios.get(`${url}/api/feedback/list`, {
          headers: { token },
        });
-       console.log('Fetched Feedback:', response.data); // ✅ Debug response
+       console.log('Fetched Feedback:', response.data); // Debug response
        setFeedbackList(
          Array.isArray(response.data.data) ? response.data.data : []
        );
@@ -46,21 +47,20 @@
    };
 
    // Add feedback
-const addFeedback = async (feedback) => {
-  try {
-    const response = await axios.post(`${url}/api/feedback/add`, feedback, {
-      headers: { token },
-    });
+   const addFeedback = async (feedback) => {
+     try {
+       const response = await axios.post(`${url}/api/feedback/add`, feedback, {
+         headers: { token },
+       });
 
-    if (response.data.success) {
-      console.log('Feedback added successfully:', response.data);
-      await fetchFeedbackList(); // ✅ Refetch updated feedback list from backend
-    }
-  } catch (error) {
-    console.error('Error adding feedback:', error);
-  }
-};
-
+       if (response.data.success) {
+         console.log('Feedback added successfully:', response.data);
+         await fetchFeedbackList(); // Refetch updated feedback list
+       }
+     } catch (error) {
+       console.error('Error adding feedback:', error);
+     }
+   };
 
    // Fetch food list and feedback on component mount or when user logs in
    useEffect(() => {
@@ -101,55 +101,68 @@ const addFeedback = async (feedback) => {
    // Toggle dark mode
    const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
-   // Cart operations
-   const addToCart = async (itemId) => {
+   // Add item to cart
+   const addToCart = async (itemId, quantity = 1) => {
      if (!isLoggedIn) {
        alert('Please log in to add items to your cart.');
        return;
      }
-     if (!cartItems[itemId]) {
-       setCartItems((prev) => ({
-         ...prev,
-         [itemId]: 1,
-       }));
-     } else {
-       setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-     }
-     if (token) {
-       await axios.post(
-         `${url}/api/cart/add`,
-         { itemId },
-         { headers: { token } }
-       );
-     }
-   };
 
-   const removeFromCart = async (itemId) => {
+     // Update local cart state
      setCartItems((prev) => ({
        ...prev,
-       [itemId]: prev[itemId] - 1,
+       [itemId]: (prev[itemId] || 0) + quantity,
      }));
+
+     // Send request to backend to update the cart in the database
      if (token) {
-       await axios.post(
-         `${url}/api/cart/remove`,
-         { itemId },
-         { headers: { token } }
-       );
+       try {
+         await axios.post(
+           `${url}/api/cart/add`,
+           { itemId, quantity },
+           { headers: { token } }
+         );
+       } catch (error) {
+         console.error('Error adding item to cart:', error);
+       }
      }
    };
 
-   const decreaseQuantity = (itemId) => {
+   // Remove item from cart
+   const removeFromCart = async (itemId, removeAll = false) => {
+     if (!cartItems[itemId]) return; // Ensure item exists in cart
+
+     // Update local cart state
      setCartItems((prev) => {
-       if (!prev[itemId] || prev[itemId] <= 1) {
-         const newCart = { ...prev };
-         delete newCart[itemId];
-         return newCart;
+       const updatedCart = { ...prev };
+
+       if (removeAll) {
+         // Completely remove the item
+         delete updatedCart[itemId];
+       } else {
+         // Decrease quantity or remove if 1
+         if (updatedCart[itemId] > 1) {
+           updatedCart[itemId] -= 1;
+         } else {
+           delete updatedCart[itemId];
+         }
        }
-       return {
-         ...prev,
-         [itemId]: prev[itemId] - 1,
-       };
+
+       return updatedCart;
      });
+
+     // Send request to backend to update the cart in the database
+     if (token) {
+       try {
+         await axios.post(
+           `${url}/api/cart/remove`,
+           { itemId, removeAll },
+           { headers: { token } }
+         );
+       } catch (error) {
+         console.error('Error removing item from cart:', error);
+       }
+     }
    };
 
    // Calculate total cart price
@@ -165,7 +178,6 @@ const addFeedback = async (feedback) => {
      cartItems,
      addToCart,
      removeFromCart,
-     decreaseQuantity,
      isLoggedIn,
      setIsLoggedIn,
      totalCartPrice,
