@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const FeedbackForm = () => {
   const [formData, setFormData] = useState({
@@ -45,9 +48,18 @@ const FeedbackForm = () => {
     }
 
     setErrors({});
+    const existingFeedback =
+      JSON.parse(localStorage.getItem('feedbacks')) || [];
+
+    // Add new feedback
+    const updatedFeedback = [...existingFeedback, formData];
+
+    // Store updated feedback list
+    localStorage.setItem('feedbacks', JSON.stringify(updatedFeedback));
+
 
     console.log('Feedback Submitted:', formData);
-
+    console.log('updated Feedback List',JSON.parse(localStorage.getItem("feedbacks")))
     setFormData({
       name: '',
       email: '',
@@ -55,8 +67,7 @@ const FeedbackForm = () => {
       feedback: '',
     });
 
-    alert('Thank you for your feedback!');
-  };
+toast.success('Thank you for your feedback!', { position: 'top-right' });  };
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">

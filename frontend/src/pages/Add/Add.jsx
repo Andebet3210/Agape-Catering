@@ -78,7 +78,7 @@ const Add = ({ url }) => {
   };
 
   return (
-    <div className="flex justify-start items-center min-h-screen bg-gray-50 pl-10">
+    <div className="flex justify-start items-center min-h-screen bg-gray-50 ml-64 p-6">
       <form
         onSubmit={onSubmitHandler}
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl space-y-6"

@@ -52,14 +52,14 @@ const FoodItem = ({ id, name, price, description, image }) => {
           alt={name}
           className="w-full h-40 object-cover rounded-lg"
         />
-        <p className="text-xl font-semibold mt-2">{name}</p>
+        <p className="text-xl text-red-400 font-semibold mt-2">{name}</p>
         <p className="text-sm text-gray-600 mt-1">{description}</p>
         <p className="text-lg font-bold text-green-600 mt-2">{price} ETB</p>
       </div>
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black opacity-50"
@@ -84,7 +84,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
             />
 
             {/* Food Details */}
- 
+
             <h2 className="text-2xl font-bold mt-4">{name}</h2>
             <p className="text-sm text-gray-600 mt-2">{description}</p>
             <p className="text-lg font-bold text-green-600 mt-2">{price} ETB</p>

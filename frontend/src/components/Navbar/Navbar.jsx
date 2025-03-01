@@ -8,7 +8,8 @@
    FaSignOutAlt,
    FaUser,
    FaCog,
-   FaHistory,
+   FaMoon,
+   FaSun,
  } from 'react-icons/fa';
  import { Link, useNavigate } from 'react-router-dom';
  import { StoreContext } from '../../context/StoreContext';
@@ -16,25 +17,20 @@
  const Navbar = ({ setShowLogin }) => {
    const [isOpen, setIsOpen] = useState(false);
    const [isProfileOpen, setIsProfileOpen] = useState(false);
-   const { token, setToken } = useContext(StoreContext);
-   
+   const { token, setToken, darkMode, toggleDarkMode } =
+     useContext(StoreContext);
+
    const navigate = useNavigate();
-    const timeoutRef = useRef(null);
+   const timeoutRef = useRef(null);
 
-   const logout =()=>{
-     localStorage.removeItem("token");
-     setToken("");
-     navigate("/")
-   };
-  
-
-   const handleLogout = () => {
-     setToken('');
+   const logout = () => {
      localStorage.removeItem('token');
+     setToken('');
+     navigate('/');
    };
 
    return (
-     <div className="p-2 flex items-center bg-white shadow-md fixed top-0 left-0 w-full z-10">
+     <div className="p-2 flex items-center bg-white dark:bg-gray-900 dark:text-white shadow-md fixed top-0 left-0 w-full z-10 transition-colors">
        <div className="flex-1 flex justify-start">
          <Link to="/">
            <img
@@ -64,7 +60,7 @@
        </div>
 
        <div className="hidden sm:flex flex-1 justify-end px-4 sm:px-16">
-         <ul className="flex items-center space-x-4 sm:space-x-8 text-sm sm:text-md font-medium text-black">
+         <ul className="flex items-center space-x-4 sm:space-x-8 text-sm sm:text-md font-medium text-black dark:text-white">
            <Link to="/" className="cursor-pointer hover:text-gray-400">
              Home
            </Link>
@@ -96,44 +92,56 @@
                Login/Sign Up
              </button>
            ) : (
-             <div
-               className="relative"
-               onMouseEnter={() => setIsProfileOpen(true)}
-               onMouseLeave={() =>
-                 setTimeout(() => setIsProfileOpen(false), 800)
-               } // Delay added
-             >
-               <FaUser className="w-7 h-7 cursor-pointer text-gray-600 hover:text-gray-800" />
-               {isProfileOpen && (
-                 <ul className="absolute right-0 mt-2 w-32 border-red-400 bg-white shadow-lg rounded-lg py-2 border transition-opacity duration-400">
-                   <li className="flex items-center px-4 py-2 hover:bg-red-400 cursor-pointer">
-                     <FaShoppingBag className="mr-2" />
-                     <Link to="/orders">Orders</Link>
-                   </li>
-                   <hr />
-                   <li className="flex items-center px-4 py-2 hover:bg-red-400 cursor-pointer">
-                    <FaCog className="mr-2" />
-                    <Link to="/manage-profile">Manage Profile</Link> {/* New "Manage Profile" option */}
-                  </li>
-                  <hr />
-                  
-                   <li onClick={logout}
-                     className="flex items-center px-4 py-2 hover:bg-red-400 cursor-pointer"
-                    //  onClick={handleLogout}
-                   >
-                     <FaSignOutAlt className="mr-2" />
-                     Logout
-                   </li>
-                 </ul>
-               )}
+             <div className="relative flex items-center">
+               <div
+                 onMouseEnter={() => setIsProfileOpen(true)}
+                 onMouseLeave={() =>
+                   setTimeout(() => setIsProfileOpen(false), 800)
+                 }
+               >
+                 <FaUser className="w-7 h-7 cursor-pointer text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100" />
+                 {isProfileOpen && (
+                   <ul className="absolute right-0 mt-2 w-32 border-red-400 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-lg py-2 border transition-opacity duration-400">
+                     <li className="flex items-center px-4 py-2 hover:bg-red-400 dark:hover:bg-red-600 cursor-pointer">
+                       <FaShoppingBag className="mr-2" />
+                       <Link to="/orders">Orders</Link>
+                     </li>
+                     <hr />
+                     <li className="flex items-center px-4 py-2 hover:bg-red-400 dark:hover:bg-red-600 cursor-pointer">
+                       <FaCog className="mr-2" />
+                       <Link to="/manage-profile">Manage Profile</Link>
+                     </li>
+                     <hr />
+                     <li
+                       onClick={logout}
+                       className="flex items-center px-4 py-2 hover:bg-red-400 dark:hover:bg-red-600 cursor-pointer"
+                     >
+                       <FaSignOutAlt className="mr-2" />
+                       Logout
+                     </li>
+                   </ul>
+                 )}
+               </div>
+
+               {/* 🌙 Dark Mode Toggle After User Icon */}
+               <button
+                 onClick={toggleDarkMode}
+                 className="ml-4 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+               >
+                 {darkMode ? (
+                   <FaSun className="text-yellow-500 w-6 h-6" />
+                 ) : (
+                   <FaMoon className="text-gray-600 w-6 h-6" />
+                 )}
+               </button>
              </div>
            )}
          </ul>
        </div>
 
        {isOpen && (
-         <div className="absolute top-14 left-0 w-full bg-white shadow-lg p-4 sm:hidden">
-           <ul className="flex flex-col space-y-4 text-center text-black">
+         <div className="absolute top-14 left-0 w-full bg-white dark:bg-gray-800 shadow-lg p-4 sm:hidden">
+           <ul className="flex flex-col space-y-4 text-center text-black dark:text-white">
              <li className="cursor-pointer hover:text-gray-400">
                <Link to="/">Home</Link>
              </li>

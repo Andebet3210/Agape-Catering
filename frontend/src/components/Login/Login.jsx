@@ -106,13 +106,14 @@ const Login = ({ setShowLogin }) => {
           required
           className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
-        <input
+        <input 
           name="password"
           onChange={onChangeHandler}
           value={data.password}
           type="password"
           placeholder="Password"
           required
+          
           className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
         <button

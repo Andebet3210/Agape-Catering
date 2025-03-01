@@ -8,6 +8,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
+import feedbackRouter from './routes/feedbackRoute.js';
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ const port = 4000;
 // ✅ CORS Options — define before use
 const corsOptions = {
   origin: 'http://localhost:5173', // Frontend URL
-  methods: ['GET', 'POST', 'DELETE'],
+  methods: ['GET', 'POST' ,'PUT', 'DELETE'],
   credentials: true,
 };
 
@@ -34,8 +35,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/user', userRouter);
 app.use('/api/food', foodRouter);
 app.use('/api/cart',cartRouter);
-app.user('/api/order',orderRouter);
-
+app.use('/api/order',orderRouter);
+app.use('/api/feedback', feedbackRouter); 
 // ✅ Database Connection
 mongoose
   .connect(process.env.MONGODB_URI, {
