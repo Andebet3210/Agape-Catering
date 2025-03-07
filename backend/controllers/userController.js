@@ -1,29 +1,23 @@
-import userModel from '../models/userModel.js';
+import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
 
-// Create JWT Token
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
-// Login User
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await userModel.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User doesn't exist" });
+      return res.status(404).json({ success: false, message: "User doesn't exist" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Invalid credentials' });
+      return res.status(400).json({ success: false, message: 'Invalid credentials' });
     }
 
     const token = createToken(user._id);
@@ -34,31 +28,24 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Register User
 const registerUser = async (req, res) => {
   const { name, password, email } = req.body;
   try {
-    const exists = await userModel.findOne({ email });
+    const exists = await User.findOne({ email });
     if (exists) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'User already exists' });
+      return res.status(400).json({ success: false, message: 'User already exists' });
     }
 
     if (!validator.isEmail(email)) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Invalid email format' });
+      return res.status(400).json({ success: false, message: 'Invalid email format' });
     }
 
     if (password.length < 4) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Please use strong password' });
+      return res.status(400).json({ success: false, message: 'Please use strong password' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new userModel({ name, email, password: hashedPassword });
+    const newUser = new User({ name, email, password: hashedPassword });
 
     const user = await newUser.save();
     const token = createToken(user._id);

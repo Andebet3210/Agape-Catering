@@ -25,12 +25,22 @@ import Orders from './pages/Orders/Orders';
 import ManagerHome from './manager/ManagerHome/Home';
 import Profile from './manager/Profile';
 import ViewFeedback from './manager/viewFeedback';
+//system admin panel
+import CreateAccount from './SystemAdmin/CreateAccount/createaccount';
+import SystemSettings from './SystemAdmin/SystemSetting';
+import UserManagement from './SystemAdmin/UserManagement';
+import SystemSidebar from './SystemAdmin/SystemSidebar';
+import SystemNavbar from './SystemAdmin/SystemNavbar';
+import ViewUser from './SystemAdmin/ViewUser';
+import EditStaff from './SystemAdmin/EditStaff';
+import ListStaff from './SystemAdmin/ListStaff';
 
 const AppContent = () => {
   const url = 'http://localhost:4000';
   const [showLogin, setShowLogin] = useState(false);
   const location = useLocation();
   const isManagerRoute = location.pathname.startsWith('/manager');
+  const isSystemRoute = location.pathname.startsWith('/system');
 
   return (
     <>
@@ -38,6 +48,8 @@ const AppContent = () => {
         <ToastContainer />
         {isManagerRoute ? (
           <ManagerNavbar />
+        ) : isSystemRoute ? (
+          <SystemNavbar />
         ) : (
           <Navbar setShowLogin={setShowLogin} />
         )}
@@ -55,6 +67,7 @@ const AppContent = () => {
           <Route path="/view-feedback" element={<ViewFeedback />} />
           <Route path="/contact" element={<Footer />} />
           <Route path="/order" element={<PlaceOrder />} />
+
           {/* Manager Routes with Sidebar */}
           <Route path="/manager" element={<ManagerSidebar />}>
             <Route index element={<ManagerHome />} />
@@ -69,9 +82,20 @@ const AppContent = () => {
             />
             <Route path="feedback" element={<div>Feedback Page</div>} />
           </Route>
+
+          {/* System Admin Routes with Sidebar */}
+          <Route path="/system" element={<SystemSidebar />}>
+            <Route index element={<SystemSettings url={url} />} />
+            <Route path="createaccount" element={<CreateAccount url={url} />} />
+            <Route path="edituser" element={<EditStaff url={url} />} />
+            <Route path="settings" element={<SystemSettings url={url} />} />
+            <Route path="user-management" element={<UserManagement url={url} />} />
+            <Route path="list" element={<ListStaff url={url} />} />
+            <Route path="viewuser" element={<ViewUser url={url} />} />
+          </Route>
         </Routes>
 
-        {!isManagerRoute && <Footer />}
+        {!isManagerRoute && !isSystemRoute && <Footer />}
       </div>
 
       {showLogin && (
