@@ -14,7 +14,19 @@ const Add = ({ url }) => {
     description: '',
     price: '',
     category: '',
+    subcategory: '', // Add subcategory field
   });
+
+  // Define subcategories for each category
+  const subcategories = {
+    Drinks: ['Soft Drinks', 'Alcoholic Drinks', 'Juices', 'Water'],
+    Dessert: ['Cake', 'Ice Cream', 'Cookies', 'Pastries'],
+    'Global cuisine': ['Pizza', 'Burger', 'Pasta', 'Sushi'],
+    Vegetable: ['Salads', 'Grilled Vegetables', 'Vegetable Stir Fry'],
+    'Full Package': ['Starter', 'Main Course', 'Dessert', 'Drinks'],
+    የጾም: ['በያይነት', 'ማህበራዊ'],
+    የፍስክ: ['ዶሮ', 'ጥብስ', 'ስጋ ፍርፍር'],
+  };
 
   // Handle input changes
   const onChangeHandler = (event) => {
@@ -44,6 +56,7 @@ const Add = ({ url }) => {
     formData.append('description', data.description);
     formData.append('price', Number(data.price));
     formData.append('category', data.category);
+    formData.append('subcategory', data.subcategory); // Include subcategory
     formData.append('image', image);
 
     try {
@@ -60,6 +73,7 @@ const Add = ({ url }) => {
           description: '',
           price: '',
           category: '',
+          subcategory: '', // Reset subcategory
         });
         setImage(null);
 
@@ -134,7 +148,7 @@ const Add = ({ url }) => {
           />
         </div>
 
-        {/* Category and Price */}
+        {/* Category and Subcategory */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-600 mb-1">Category</label>
@@ -148,8 +162,8 @@ const Add = ({ url }) => {
               <option value="" disabled>
                 Select a category
               </option>
-              <option value="Dessert">Dessert</option>
               <option value="Drinks">Drinks</option>
+              <option value="Dessert">Dessert</option>
               <option value="Global cuisine">Global cuisine</option>
               <option value="Vegetable">Vegetable</option>
               <option value="Full Package">Full Package</option>
@@ -159,19 +173,41 @@ const Add = ({ url }) => {
           </div>
 
           <div>
-            <label className="block text-gray-600 mb-1">Price</label>
-            <input
-              type="number"
-              name="price"
-              value={data.price}
+            <label className="block text-gray-600 mb-1">Subcategory</label>
+            <select
+              name="subcategory"
+              value={data.subcategory}
               onChange={onChangeHandler}
-              placeholder="ETB"
               className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
-              min="1"
-              step="0.01"
               required
-            />
+            >
+              <option value="" disabled>
+                Select a subcategory
+              </option>
+              {data.category &&
+                subcategories[data.category]?.map((subcategory) => (
+                  <option key={subcategory} value={subcategory}>
+                    {subcategory}
+                  </option>
+                ))}
+            </select>
           </div>
+        </div>
+
+        {/* Price */}
+        <div>
+          <label className="block text-gray-600 mb-1">Price</label>
+          <input
+            type="number"
+            name="price"
+            value={data.price}
+            onChange={onChangeHandler}
+            placeholder="ETB"
+            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-500"
+            min="1"
+            step="0.01"
+            required
+          />
         </div>
 
         {/* Submit Button */}
